@@ -1,0 +1,60 @@
+<html>
+<body>
+<script src="prefab.js"></script>
+<script>
+prefab.name = "WickedBomb";
+
+const T = 1.8;
+const r = 2.;
+const R = 50.;
+const ANG = 360.*6;
+const AMP = .25;
+const DEG_RAD = Math.PI/180.;
+function box(t,ang,bin){
+	var empt = new Obj(t,15,shapes.sq,bin,objectTypes.empty,autoKillTypes.lastKF,0);
+	var sq = new Obj(t,15,shapes.sq,bin+1,objectTypes.normal,autoKillTypes.lastKF,0);
+	
+	empt.posEvent(0.,r*Math.cos(ang*DEG_RAD),r*Math.sin(ang*DEG_RAD));
+	empt.posEvent(T,R*Math.cos(ang*DEG_RAD),R*Math.sin(ang*DEG_RAD));
+	empt.scaEvent(0.,1.,1.);
+	empt.rotEvent(0.,ang);
+	empt.rotEvent(T,-ANG);
+	empt.colEvent(0.,0);
+	
+	sq.setParent(empt);
+	sq.posEvent(0.,AMP,0.);
+	sq.scaEvent(0.,.8,.8);
+	sq.rotEvent(0.,0.);
+	sq.rotEvent(T,.9*ANG);
+	sq.colEvent(0.,0);
+}
+
+for(let t=0,ang=0;t<3.5;t+=0.06,ang-=2.){
+	var ang2 = ang+15*Math.sin(20.*t);
+	for(var i=0;i<4;i++){
+		box(t,ang2,4);
+		box(t,ang2+90.,6);
+		box(t,ang2+180.,8);
+		box(t,ang2-90.,10);
+	}
+}
+var cross1 = new Obj(0.,16,shapes.sq,1,objectTypes.normal,autoKillTypes.fixedTime,3.5);
+var cross2 = new Obj(0.,16,shapes.sq,2,objectTypes.normal,autoKillTypes.fixedTime,3.5);
+
+cross1.posEvent(0.,0.,0.);
+cross1.scaEvent(0.,6.,2.);
+cross1.rotEvent(0.,0.);
+cross1.rotEvent(3.5,-116.67);
+cross1.colEvent(0.,0);
+
+cross2.setParent(cross1);
+cross2.posEvent(0.,0.,0.);
+cross2.scaEvent(0.,2.,6.);
+cross2.rotEvent(0.,0.);
+cross2.colEvent(0.,0);
+
+prefab.clean();
+document.body.innerHTML = JSON.stringify(prefab);
+</script>
+</body>
+</html>

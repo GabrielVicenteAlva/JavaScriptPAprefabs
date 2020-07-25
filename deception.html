@@ -1,0 +1,34 @@
+<html>
+<body>
+<script src="prefab.js"></script>
+<script>
+prefab.name = 'Deception';
+var main = new Obj(0,15,shapes.cr,'1','0','1','0');
+
+main.scaEvent(0.,6.,6.);
+main.rotEvent(0.,0.);
+main.colEvent(0.,0);
+
+const framerate = 0.1;
+
+const n = 10;
+for(var i=1;i<n;i++){
+	var tail = new Obj(0,15+i,shapes.cr,'1',objectTypes.decoration,'3','12');
+	tail.posEvent(0.,0.,0.);
+	let size = 5.*(1-i/n);
+	tail.scaEvent(0.,size,size);
+	tail.rotEvent(0.,0.);
+	tail.colEvent(0.,2);
+	tail.setParent(main);
+	tail.parentOffset(true,false,true,0.08*i,0.,0.08*i);
+}
+
+for(var t=0.;t<12.;t+=framerate){
+	main.posEvent(t,32*Math.sin(2*t),16*Math.sin(3*t));
+}
+
+prefab.clean()
+document.body.innerHTML = JSON.stringify(prefab);
+</script>
+</body>
+</html>
